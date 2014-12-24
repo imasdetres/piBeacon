@@ -29,12 +29,10 @@ stop() {
 case "$1" in
 start)
         printf "%-50s" "Starting ibeacon..."
-        cd /home/pi
 	start
 ;;
 stop)
         printf "%-50s" "Stopping ibeacon..."
-        cd /home/pi
         stop
 ;;
 restart)
