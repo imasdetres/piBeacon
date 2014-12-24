@@ -48,6 +48,7 @@ start() {
 
 	echo "Launching virtual iBeacon..."
 	sudo hciconfig $BLUETOOTH_DEVICE up || exit 1
+	[ -n "$NAME" ] && sudo hciconfig set name $NAME
 
 	# LE Set Advertising Data
 	sudo hcitool -i $BLUETOOTH_DEVICE cmd 0x08 0x0008 1f $AD_Flags $AD_Data || exit 1
