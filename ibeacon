@@ -11,9 +11,16 @@ start() {
 
 	echo "Launching virtual iBeacon..."
 	sudo hciconfig $BLUETOOTH_DEVICE up
-	sudo hciconfig $BLUETOOTH_DEVICE noleadv
-	sudo hciconfig $BLUETOOTH_DEVICE leadv 3
+
+	# LE Set Advertising Data
 	sudo hcitool -i $BLUETOOTH_DEVICE cmd 0x08 0x0008 1e 02 01 1a 1a ff 4c 00 02 15 $UUID $MAJOR $MINOR $POWER 00 00 00 00 00 00 00 00 00 00 00 00 00
+
+	# LE Set Advertising Parameters
+	sudo hcitool -i $BLUETOOTH_DEVICE cmd 0x08 0x0006 $ADV_INTERV_MIN $ADV_INTERV_MAX $ADV_TYPE $OWN_ADDR_TYPE $DIR_ADDR_TYPE $DIR_ADDR $ADV_CHAN_MAP $ADV_FILT_POL
+
+	# LE Set Advertise Enable
+	sudo hcitool -i $BLUETOOTH_DEVICE cmd 0x08 0x000a 01
+
 	echo "Complete"
 }
 
