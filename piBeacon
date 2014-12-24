@@ -6,8 +6,8 @@ PIDFILE=/var/run/ibeacon.pid
 SCRIPTNAME=/etc/init.d/ibeacon
 
 start() {
-	[ -f /etc/ibeacon.conf ] && . /etc/ibeacon.conf
-	[ -f "$(dirname "$0")"/ibeacon.conf ] && . "$(dirname "$0")"/ibeacon.conf
+	[ -f /etc/piBeacon.conf ] && . /etc/piBeacon.conf
+	[ -f "$(dirname "$0")"/piBeacon.conf ] && . "$(dirname "$0")"/piBeacon.conf
 
 	# Advertising Data Flags (not part of AltBeacon standard)
 	AD_Length_Flags="02"	# Length of Flags AD structure in bytes
@@ -56,12 +56,12 @@ start() {
 }
 
 stop() {
-	[ -f /etc/ibeacon.conf ] && . /etc/ibeacon.conf
-	[ -f "$(dirname "$0")"/ibeacon.conf ] && . "$(dirname "$0")"/ibeacon.conf
+	[ -f /etc/piBeacon.conf ] && . /etc/piBeacon.conf
+	[ -f "$(dirname "$0")"/piBeacon.conf ] && . "$(dirname "$0")"/piBeacon.conf
 
 	echo "Disabling virtual iBeacon..."
-	sudo hciconfig $BLUETOOTH_DEVICE noleadv || exit 1
-	sudo hciconfig $BLUETOOTH_DEVICE down || exit 1
+	sudo hciconfig $BLUETOOTH_DEVICE noleadv
+	sudo hciconfig $BLUETOOTH_DEVICE down
 	echo "Complete"
 }
 
