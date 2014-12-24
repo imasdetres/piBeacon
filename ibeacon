@@ -26,6 +26,12 @@ start() {
 	iBeacon_Advertisement="$AD_Length_Data $AD_Type_Manufacturer_Specific_Data $AD_Data_Company_Identifier $AD_Data_Proximity_Type"
 	iBeacon_Advertisement+=" $AD_Data_UUID $AD_Data_MAJOR $AD_Data_MINOR $AD_Data_POWER $AD_Data_Manufacturer_Reserved"
 
+	NameHex=$(echo -n "$Name" | hexdump -v -e '/1 "%02X "')
+	NameLen=$(echo -n "$Name" | wc -c)
+	NameLenHex=$(printf "%02X" $(($NameLen+1)))
+	iBeacon_Advertisement+=" $NameLenHex $NameType $NameHex"
+	#iBeacon_Advertisement+=" 0e 16 0a 18 58 a6 f7 b7 e2 c0 b6 58 a6 f7 b7 00 00 00 00 00 00 00"
+
 
 	# AltBeacon Advertisement
 	AD_Length_Data="1b"
