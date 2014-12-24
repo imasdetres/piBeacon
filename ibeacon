@@ -9,11 +9,42 @@ start() {
 	[ -f /etc/ibeacon.conf ] && . /etc/ibeacon.conf
 	[ -f "$(dirname "$0")"/ibeacon.conf ] && . "$(dirname "$0")"/ibeacon.conf
 
+	# Advertising Data Flags (not part of AltBeacon standard)
+	AD_Length_Flags="02"	# Length of Flags AD structure in bytes
+	AD_Type_Flags="01"	# Type of AD structure as Flags type
+	AD_Data_Flags="1a"	# Flags data LE General Discoverable
+	AD_Flags="$AD_Length_Flags $AD_Type_Flags $AD_Data_Flags"
+
+	AD_Type_Manufacturer_Specific_Data="ff"	# Type of AD structure as Manufacturer Specific Data
+
+
+	# iBeacon Advertisement
+	AD_Length_Data="1a"			# Length of Data AD structure in bytes
+	AD_Data_Proximity_Type="02 15"		# iBeacon advertisement code
+	AD_Data_Manufacturer_Reserved="00"	# Reserved for use by manufacturer to implement special features
+
+	iBeacon_Advertisement="$AD_Length_Data $AD_Type_Manufacturer_Specific_Data $AD_Data_Company_Identifier $AD_Data_Proximity_Type"
+	iBeacon_Advertisement+=" $AD_Data_UUID $AD_Data_MAJOR $AD_Data_MINOR $AD_Data_POWER $AD_Data_Manufacturer_Reserved"
+
+
+	# AltBeacon Advertisement
+	AD_Length_Data="1b"
+	AD_Data_Proximity_Type="be ac"
+	AD_Data_Manufacturer_Reserved="01"
+
+	AltBeacon_Advertisement="$AD_Length_Data $AD_Type_Manufacturer_Specific_Data $AD_Data_Company_Identifier $AD_Data_Proximity_Type"
+	AltBeacon_Advertisement+=" $AD_Data_UUID $AD_Data_MAJOR $AD_Data_MINOR $AD_Data_POWER $AD_Data_Manufacturer_Reserved"
+
+
+	AD_Data="$iBeacon_Advertisement"
+	#AD_Data="$AltBeacon_Advertisement"
+
+
 	echo "Launching virtual iBeacon..."
 	sudo hciconfig $BLUETOOTH_DEVICE up
 
 	# LE Set Advertising Data
-	sudo hcitool -i $BLUETOOTH_DEVICE cmd 0x08 0x0008 1e 02 01 1a 1a ff 4c 00 02 15 $UUID $MAJOR $MINOR $POWER 00 00 00 00 00 00 00 00 00 00 00 00 00
+	sudo hcitool -i $BLUETOOTH_DEVICE cmd 0x08 0x0008 1f $AD_Flags $AD_Data
 
 	# LE Set Advertising Parameters
 	sudo hcitool -i $BLUETOOTH_DEVICE cmd 0x08 0x0006 $ADV_INTERV_MIN $ADV_INTERV_MAX $ADV_TYPE $OWN_ADDR_TYPE $DIR_ADDR_TYPE $DIR_ADDR $ADV_CHAN_MAP $ADV_FILT_POL
