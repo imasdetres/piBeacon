@@ -1,7 +1,8 @@
 piBeacon
 ========
 
-iBeacon using a Raspberry Pi - from [a blog post by James Nebeker and David G. Young](http://developer.radiusnetworks.com/2013/10/09/how-to-make-an-ibeacon-out-of-a-raspberry-pi.html).
+iBeacon/AltBeacon transmitter for the Raspberry Pi - inspired by [~~a blog post by James Nebeker and David G. Young~~](http://developer.radiusnetworks.com/2013/10/09/how-to-make-an-ibeacon-out-of-a-raspberry-pi.html)
+ (The article is missing right now, but here's a [mirror](https://web.archive.org/web/20140606045234/http://developer.radiusnetworks.com/2013/10/09/how-to-make-an-ibeacon-out-of-a-raspberry-pi.html)).
 
 ## Prerequisites
 You'll need to download and install [BlueZ](http://www.bluez.org) version 5.7 or later and install it.
