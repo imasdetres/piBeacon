@@ -9,6 +9,7 @@ start() {
 	[ -f /etc/piBeacon.conf ] && . /etc/piBeacon.conf
 	[ -f "$(dirname "$0")"/piBeacon.conf ] && . "$(dirname "$0")"/piBeacon.conf
 
+
 	# Advertising Data Flags (not part of AltBeacon standard)
 	AD_Length_Flags="02"	# Length of Flags AD structure in bytes
 	AD_Type_Flags="01"	# Type of AD structure as Flags type
@@ -16,6 +17,13 @@ start() {
 	AD_Flags="$AD_Length_Flags $AD_Type_Flags $AD_Data_Flags"
 
 	AD_Type_Manufacturer_Specific_Data="ff"	# Type of AD structure as Manufacturer Specific Data
+
+
+	# Data conversion
+	AD_Data_UUID=${AD_Data_UUID:-$(echo $UUID | formatHex)}
+	AD_Data_MAJOR=${AD_Data_MAJOR:-$(printf "%04x" $MAJOR | formatHex)}
+	AD_Data_MINOR=${AD_Data_MINOR:-$(printf "%04x" $MINOR | formatHex)}
+	AD_Data_POWER=${AD_Data_POWER:-$(printf "%02x" $(($POWER+256)))} # 2’s complement
 
 
 	# iBeacon Advertisement
