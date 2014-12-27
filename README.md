@@ -25,13 +25,13 @@ You'll need to download and install [BlueZ](http://www.bluez.org) version 5.7 or
 
 
 ## Installation
-		$ sudo cp ibeacon.conf /etc
-		$ sudo cp ibeacon /etc/init.d
-		$ sudo update-rc.d ibeacon defaults
+		$ sudo cp piBeacon.conf /etc
+		$ sudo cp piBeacon /etc/init.d
+		$ sudo update-rc.d piBeacon defaults
 
 ## Startup
-		$ sudo service ibeacon start
+		$ sudo service piBeacon start
 
 ## Shutdown
-		$ sudo service ibeacon shutdown
+		$ sudo service piBeacon shutdown
 
